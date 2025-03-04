@@ -34,5 +34,10 @@ public class Constants {
         public static final double INDIGO = 0.666;
         public static final double VIOLET = 0.722;
         public static final double WHITE = 1.000;
+    // This is the servercontroller component of the class
+    public static final class ServerController {
+        public static final int LEFT_REAR_RGB = 0;
+        public static final int RIGHT_REAR_RGB = 1;
+    }
     }
 }
