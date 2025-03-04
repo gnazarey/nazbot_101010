@@ -1,9 +1,17 @@
 package org.firstinspires.ftc.teamcode.SubSystem;
 
-
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
+
+/////////////////////////////////////////////////
+// This is the RGB subsystem it controls the RGB
+// lights.
+//
+// Written By: George Nazarey
+// Date: 3/4/2025
+// Email: george@nazarey.ca
+//
 
 public class RGBLights {
     private final SimpleServo lRGB;
