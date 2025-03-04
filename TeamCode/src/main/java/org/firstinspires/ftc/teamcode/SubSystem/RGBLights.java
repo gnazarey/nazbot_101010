@@ -19,4 +19,12 @@ public class RGBLights {
         this.rRGB.setPosition(Constants.RGB_Light.BLUE);
         this.lRGB.setPosition(Constants.RGB_Light.GREEN);
     }
+
+    public void setlRGB(double color){
+        this.lRGB.setPosition(color);
+    }
+
+    public void setrRGB(double color){
+        this.rRGB.setPosition(color);
+    }
 }
