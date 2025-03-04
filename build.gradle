@@ -8,6 +8,7 @@ buildscript {
     repositories {
         mavenCentral()
         google()
+        jcenter()
     }
     dependencies {
         // Note for FTC Teams: Do not modify this yourself.
@@ -21,9 +22,12 @@ allprojects {
     repositories {
         mavenCentral()
         google()
+        jcenter()
     }
 }
 
 repositories {
     mavenCentral()
+    jcenter()
 }
+
