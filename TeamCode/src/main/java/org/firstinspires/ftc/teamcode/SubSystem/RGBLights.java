@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
 
 public class RGBLights {
-    private SimpleServo lRGB = null;
-    private SimpleServo rRGB = null;
+    private SimpleServo lRGB;
+    private SimpleServo rRGB;
 
     public RGBLights(HardwareMap hwMap){
         this.lRGB = new SimpleServo(hwMap,"lrgb",0.0,1.0);
