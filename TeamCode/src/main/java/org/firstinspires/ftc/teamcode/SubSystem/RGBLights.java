@@ -16,8 +16,8 @@ public class RGBLights {
     }
 
     private void init(){
-        this.rRGB.setPosition(Constants.RGB_Light.BLUE);
-        this.lRGB.setPosition(Constants.RGB_Light.GREEN);
+        this.rRGB.setPosition(Constants.RGB_Light.WHITE);
+        this.lRGB.setPosition(Constants.RGB_Light.WHITE);
     }
 
     public void setlRGB(double color){
