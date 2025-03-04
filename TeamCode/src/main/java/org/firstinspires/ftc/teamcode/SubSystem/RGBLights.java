@@ -8,6 +8,8 @@ import org.firstinspires.ftc.teamcode.Utils.Constants;
 public class RGBLights {
     private final SimpleServo lRGB;
     private final SimpleServo rRGB;
+    private double lRGBColor;
+    private double rRGBColor;
 
     public RGBLights(HardwareMap hwMap){
         this.lRGB = new SimpleServo(hwMap,"lrgb",0.0,1.0);
@@ -17,14 +19,33 @@ public class RGBLights {
 
     private void init(){
         this.rRGB.setPosition(Constants.RGB_Light.WHITE);
+        this.rRGBColor = Constants.RGB_Light.WHITE;
         this.lRGB.setPosition(Constants.RGB_Light.WHITE);
+        this.lRGBColor = Constants.RGB_Light.WHITE;
     }
 
     public void setlRGB(double color){
         this.lRGB.setPosition(color);
+        this.lRGBColor = color;
     }
 
     public void setrRGB(double color){
         this.rRGB.setPosition(color);
+        this.rRGBColor = color;
+    }
+
+    public void setAllRGB(double color){
+        this.lRGB.setPosition(color);
+        this.lRGBColor = color;
+        this.rRGB.setPosition(color);
+        this.rRGBColor = color;
+    }
+
+    public double getlRGBColor(){
+        return this.lRGBColor;
+    }
+
+    public double getrRGBColor(){
+        return this.rRGBColor;
     }
 }
