@@ -8,14 +8,14 @@ import org.firstinspires.ftc.teamcode.Utils.Constants;
 @TeleOp(name="FlashingLights")
 public class Flashing_Lights extends OpMode {
     private RGBLights lights;
-    private int flasher = 0;
+    private boolean flasher = false;
 
     @Override public void init(){
         this.lights = new RGBLights(hardwareMap);
     }
     @Override public void loop(){
-        flasher++;
-        if ((flasher % 2) == 0){
+        flasher = !flasher;
+        if (flasher){
             this.lights.setrRGB(Constants.RGB_Light.RED);
             this.lights.setlRGB(Constants.RGB_Light.WHITE);
         } else {
