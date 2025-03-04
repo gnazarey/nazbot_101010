@@ -35,5 +35,4 @@ public class Constants {
         public static final double VIOLET = 0.722;
         public static final double WHITE = 1.000;
     }
-    // This is the tolerance component of the class
 }
