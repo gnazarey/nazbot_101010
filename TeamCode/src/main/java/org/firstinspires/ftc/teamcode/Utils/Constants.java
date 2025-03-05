@@ -20,6 +20,16 @@ public class Constants {
         public static final double YPID_Kp = 0.018;
         public static final double HEADING_Kp = 0.015;
     }
+    // This is the drivebase component
+    public static final class DriveBase {
+        public static final double MAX_SPEED = 0.3;
+        public static final double XPID_Kp = 0.018;
+        public static final double YPID_Kp = 0.018;
+        public static final double HEADING_Kp = 0.015;
+        public static final double HEADING_Ki = 0.001;
+        public static final double HEADING_Kd = 0.000;
+        public static final double HEADING_TOLERANCE = 5.0;
+    }
     // This is the odometer component of the class
     public static final class Odometer{
         public static double ODOMETER_X_OFFSET = 0;// uppdated after contact with gobilda support
