@@ -20,6 +20,11 @@ public class Constants {
         public static final double YPID_Kp = 0.018;
         public static final double HEADING_Kp = 0.015;
     }
+    // This is the odometer component of the class
+    public static final class Odometer{
+        public static double ODOMETER_X_OFFSET = 0;// uppdated after contact with gobilda support
+        public static double ODOMETER_Y_OFFSET = 21.0;
+    }
     // This is the rgb_light component of the class
     public static final class RGB_Light {
         public static final double OFF = 0.0;
