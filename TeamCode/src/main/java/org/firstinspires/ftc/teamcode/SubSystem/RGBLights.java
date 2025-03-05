@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.SubSystem;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
+import org.firstinspires.ftc.teamcode.Utils.Logger;
 
 /////////////////////////////////////////////////
 // This is the RGB subsystem it controls the RGB
@@ -18,10 +19,14 @@ public class RGBLights {
     private final SimpleServo rRGB;
     private double lRGBColor;
     private double rRGBColor;
+    private Logger logger;
 
     public RGBLights(HardwareMap hwMap){
         this.lRGB = new SimpleServo(hwMap,"lrgb",0.0,1.0);
         this.rRGB = new SimpleServo(hwMap,"rrgb",0.0,1.0);
+        if (Constants.RGB_Light.LOGGING) {
+            this.logger = new Logger(Constants.RGB_Light.LOGFILE);
+        }
         this.init();
     }
 
@@ -30,6 +35,9 @@ public class RGBLights {
         this.rRGBColor = Constants.RGB_Light.WHITE;
         this.lRGB.setPosition(Constants.RGB_Light.WHITE);
         this.lRGBColor = Constants.RGB_Light.WHITE;
+        if (Constants.RGB_Light.LOGGING){
+            this.logger.writeLog("RGB Initialized\n");
+        }
     }
 
     public void setlRGB(double color){
