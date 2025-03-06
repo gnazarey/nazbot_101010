@@ -38,6 +38,9 @@ public class RGBLights {
         if (Constants.RGB_Light.LOGGING){
             this.logger.writeLog("RGB Initialized\n");
         }
+        if (!this.logger.getLogging()){
+            this.rRGB.setPosition(Constants.RGB_Light.RED);
+        }
     }
 
     public void setlRGB(double color){
