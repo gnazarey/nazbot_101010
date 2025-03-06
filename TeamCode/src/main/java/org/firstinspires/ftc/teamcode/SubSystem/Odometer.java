@@ -20,16 +20,18 @@ import org.firstinspires.ftc.teamcode.Utils.GoBildaPinpointDriver;
 public class Odometer {
     private final GoBildaPinpointDriver odometer;
     private Pose2D pos;
+    private Pose2D velocity;
 
     public Odometer(HardwareMap hwMap) {
-        this.odometer = hwMap.get(GoBildaPinpointDriver.class, "imu");
+        this.odometer = hwMap.get(GoBildaPinpointDriver.class, "odometer");
         this.init();
     }
 
     private void init(){
         this.odometer.setOffsets(Constants.Odometer.ODOMETER_X_OFFSET, Constants.Odometer.ODOMETER_Y_OFFSET);
-        this.odometer.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD);
+        this.odometer.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         this.odometer.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        this.odometer.resetPosAndIMU();
         this.update();
     }
 
@@ -41,9 +43,13 @@ public class Odometer {
         return this.pos.getX(DistanceUnit.MM);
     }
 
+    public double getXSpeed() { return this.velocity.getX(DistanceUnit.MM); }
+
     public double getY(){
         return this.pos.getY(DistanceUnit.MM);
     }
+
+    public double getYSpeed() { return this.velocity.getY(DistanceUnit.MM); }
 
     public void reset(){
         this.odometer.resetPosAndIMU();
@@ -52,6 +58,7 @@ public class Odometer {
     public void update(){
         this.odometer.update();
         this.pos = this.odometer.getPosition();
+        this.velocity = this.odometer.getVelocity();
     }
 
 
