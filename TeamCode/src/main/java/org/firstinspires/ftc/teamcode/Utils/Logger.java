@@ -33,6 +33,10 @@ public class Logger {
         }
     }
 
+    public boolean getLogging(){
+        return this.logging;
+    }
+
     public int writeLog(String logLine)
     {
         int outputCount = 0;
