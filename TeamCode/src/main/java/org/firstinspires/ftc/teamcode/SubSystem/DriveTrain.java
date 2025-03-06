@@ -33,6 +33,8 @@ public class DriveTrain {
     // Speed Setting
     private double xSpeed = 0.0;
     private double ySpeed = 0.0;
+    private double maxXSpeed = 1.0;
+    private double maxYSpeed = 1.0;
     // Heading Setting
     private double heading;
     private double headingCorrection = 0.0;
@@ -80,9 +82,39 @@ public class DriveTrain {
         this.driveBase.driveFieldCentric(this.xSpeed,this.ySpeed,this.headingCorrection,this.heading,false);
     }
 
+    public double getMaxXSpeed(){
+        return this.maxXSpeed;
+    }
+
+    public double getMaxYSpeed(){
+        return this.maxYSpeed;
+    }
+
     public void move(double xDirection, double yDirection){
-        this.xSpeed = xDirection;
-        this.ySpeed = yDirection;
+        // Check xDirection speed for max
+        if ((Math.abs(xDirection) <= this.maxXSpeed)) {
+            this.xSpeed = xDirection;
+        } else if (xDirection >= 0.0) {
+            this.xSpeed = this.maxXSpeed;
+        } else {
+            this.xSpeed = -this.maxXSpeed;
+        }
+        // Check yDirection speed for max
+        if ((Math.abs(yDirection) <= this.maxYSpeed)) {
+            this.ySpeed = yDirection;
+        } else if (yDirection >= 0.0) {
+            this.ySpeed = this.maxYSpeed;
+        } else {
+            this.ySpeed = -this.maxYSpeed;
+        }
+    }
+
+    public void setMaxXSpeed(double maxX){
+        this.maxXSpeed = maxX;
+    }
+
+    public void setMaxYSpeed(double maxY){
+        this.maxYSpeed = maxY;
     }
 
     public void stop(){
