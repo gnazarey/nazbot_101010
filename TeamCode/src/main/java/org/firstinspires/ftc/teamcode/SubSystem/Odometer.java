@@ -22,7 +22,7 @@ public class Odometer {
     private Pose2D pos;
 
     public Odometer(HardwareMap hwMap) {
-        this.odometer = hwMap.get(GoBildaPinpointDriver.class, "xy-cord");
+        this.odometer = hwMap.get(GoBildaPinpointDriver.class, "imu");
         this.init();
     }
 
