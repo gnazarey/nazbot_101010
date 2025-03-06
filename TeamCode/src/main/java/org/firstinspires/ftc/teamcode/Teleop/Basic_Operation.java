@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.SubSystem.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystem.Odometer;
 import org.firstinspires.ftc.teamcode.SubSystem.RGBLights;
+import org.firstinspires.ftc.teamcode.Utils.Constants;
 
 @TeleOp(name="Basic_Op")
 public class Basic_Operation extends OpMode {
@@ -27,14 +28,18 @@ public class Basic_Operation extends OpMode {
         this.odometer =new Odometer(hardwareMap);
         this.driver = new GamepadEx(gamepad1);
         this.driveTrain = new DriveTrain(hardwareMap);
+        // Configure Drive Train
+        this.driveTrain.setMaxXSpeed(Constants.DriveBase.MAX_SPEED);
+        this.driveTrain.setMaxYSpeed(Constants.DriveBase.MAX_SPEED);
     }
 
     @Override public void loop(){
 
         // Look for joystick input
         // Drive Control First
-        driveTrain.move(driver.getLeftX(),driver.getLeftY());
+        this.driveTrain.move(driver.getLeftX(),driver.getLeftY());
         // Run the Loops
-        driveTrain.loop();
+        this.odometer.update();
+        this.driveTrain.loop();
     }
 }
