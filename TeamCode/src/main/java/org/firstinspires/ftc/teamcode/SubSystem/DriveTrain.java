@@ -29,7 +29,7 @@ public class DriveTrain {
     // PID Controllers
     private PIDController headingControl = null;
     // Odometer
-    private Odometer odometer;
+    private final Odometer odometer;
     // Speed Setting
     private double xSpeed = 0.0;
     private double ySpeed = 0.0;
@@ -38,6 +38,7 @@ public class DriveTrain {
     // Heading Setting
     private double heading;
     private double headingCorrection = 0.0;
+    private double headingSetPoint = Constants.DriveBase.Headings.NORTH;
 
     public DriveTrain(HardwareMap hwMap){
         // Assign the motors
@@ -45,7 +46,7 @@ public class DriveTrain {
         this.leftRearDrive = new Motor(hwMap,"LR");
         this.rightFrontDrive = new Motor(hwMap,"RF");
         this.rightRearDrive = new Motor(hwMap,"RR");
-        // Assign the drivebase
+        // Assign the drive base
         this.driveBase = new MecanumDrive(this.leftFrontDrive,this.rightFrontDrive,this.leftRearDrive,this.rightRearDrive);
         // PIDController
         this.headingControl = new PIDController(Constants.DriveBase.HEADING_Kp,Constants.DriveBase.HEADING_Ki,Constants.DriveBase.HEADING_Kd);
@@ -75,11 +76,28 @@ public class DriveTrain {
     }
 
     public void loop(){
+        // Heading calculations
+        this.heading = this.odometer.getHeading();
+        this.headingControl.setSetPoint(this.headingSetPoint);
+        if (!this.headingControl.atSetPoint()) {
+            this.headingCorrection = this.headingControl.calculate(this.heading);
+        } else {
+            this.headingCorrection = 0.0;
+        }
+        // Send the movement controls to the controller
         // xSpeed is the strafing speed -1.0 to +1.0;
         // ySpeed is the forward speed -1.0 to +1.0;
         // headingCorrection speed to turn at -1.0 to +1.0;
         // heading the direction it is facing 0 - 360;
         this.driveBase.driveFieldCentric(this.xSpeed,this.ySpeed,this.headingCorrection,this.heading,false);
+    }
+
+    public double getHeadingCorrection(){
+        return this.headingCorrection;
+    }
+
+    public double getHeadingSetPoint(){
+        return this.headingSetPoint;
     }
 
     public double getMaxXSpeed(){
@@ -107,6 +125,10 @@ public class DriveTrain {
         } else {
             this.ySpeed = -this.maxYSpeed;
         }
+    }
+
+    public void setHeadingSetPoint(double newHeading){
+        this.headingSetPoint = newHeading;
     }
 
     public void setMaxXSpeed(double maxX){
