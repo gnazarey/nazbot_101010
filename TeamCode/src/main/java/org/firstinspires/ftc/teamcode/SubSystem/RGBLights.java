@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
 import org.firstinspires.ftc.teamcode.Utils.Logger;
 
+import java.util.Locale;
+
 /////////////////////////////////////////////////
 // This is the RGB subsystem it controls the RGB
 // lights.
@@ -46,18 +48,30 @@ public class RGBLights {
     public void setlRGB(double color){
         this.lRGB.setPosition(color);
         this.lRGBColor = color;
+        if (Constants.RGB_Light.LOGGING){
+            this.logger.writeLog(String.format(Locale.ENGLISH,"%s lRGB changed to %f",this.logger.getTimeStamp(),color));
+        }
     }
 
     public void setrRGB(double color){
         this.rRGB.setPosition(color);
         this.rRGBColor = color;
+        if (Constants.RGB_Light.LOGGING){
+            this.logger.writeLog(String.format(Locale.ENGLISH,"%s rRGB changed to %f",this.logger.getTimeStamp(),color));
+        }
     }
 
     public void setAllRGB(double color){
         this.lRGB.setPosition(color);
         this.lRGBColor = color;
+        if (Constants.RGB_Light.LOGGING){
+            this.logger.writeLog(String.format(Locale.ENGLISH,"%s lRGB changed to %f",this.logger.getTimeStamp(),color));
+        }
         this.rRGB.setPosition(color);
         this.rRGBColor = color;
+        if (Constants.RGB_Light.LOGGING){
+            this.logger.writeLog(String.format(Locale.ENGLISH,"%s rRGB changed to %f",this.logger.getTimeStamp(),color));
+        }
     }
 
     public double getlRGBColor(){
