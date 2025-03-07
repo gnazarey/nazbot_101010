@@ -29,6 +29,17 @@ public class Constants {
         public static final double HEADING_Ki = 0.001;
         public static final double HEADING_Kd = 0.000;
         public static final double HEADING_TOLERANCE = 5.0;
+
+        public static final class Headings {
+            public static final double NORTH = 0.0;
+            public static final double NORTHEAST = -45.0;
+            public static final double EAST = -90.0;
+            public static final double SOUTHEAST = -135.0;
+            public static final double SOUTH = 180;
+            public static final double SOUTHWEST = 135.0;
+            public static final double WEST = 90.0;
+            public static final double NORTHWEST = 45.0;
+        }
     }
     // This is the odometer component of the class
     public static final class Odometer{
