@@ -20,6 +20,7 @@ public class odometer extends OpMode {
         this.telemetry.addData("X: ",this.odometer.getX());
         this.telemetry.addData("Y: ",this.odometer.getY());
         this.telemetry.addData("Heading: ",this.odometer.getHeading());
+        this.telemetry.update();
         this.odometer.update();
     }
 }
