@@ -37,6 +37,27 @@ public class Basic_Operation extends OpMode {
 
     @Override public void loop(){
 
+
+        //Select N, S, E, W
+        if (this.controller1.getRightX() <= -Constants.Tolerances.CONTROLLER_X) {
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.WEST); // west
+        } else if (this.controller1.getRightX() >= Constants.Tolerances.CONTROLLER_X) {
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.EAST); // east
+        } else if (this.controller1.getRightY() >= Constants.Tolerances.CONTROLLER_Y) {
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.SOUTH); // south
+        } else if (this.controller1.getRightY() <= -Constants.Tolerances.CONTROLLER_Y) {
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.NORTH); // north
+        }
+        // Select Diagonal Directions (NE,SE,SW,NW)
+        if (this.controller1.getRightX() > Constants.Tolerances.CONTROLLER_X & this.controller1.getRightY() < -Constants.Tolerances.CONTROLLER_Y) {
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.NORTHEAST); // north east
+        } else if (this.controller1.getRightX() < -Constants.Tolerances.CONTROLLER_X & this.controller1.getRightY() < -Constants.Tolerances.CONTROLLER_Y) {
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.NORTHWEST); // north west
+        } else if (this.controller1.getRightX() < -Constants.Tolerances.CONTROLLER_X & this.controller1.getRightY() > Constants.Tolerances.CONTROLLER_Y) {
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.SOUTHWEST); // south west
+        } else if (this.controller1.getRightX() > Constants.Tolerances.CONTROLLER_X & this.controller1.getRightY() > Constants.Tolerances.CONTROLLER_Y) {
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.SOUTHEAST); // south east
+        }
         // Look for joystick input
         this.xController = this.controller1.getLeftX();
         this.yController = this.controller1.getLeftY();
