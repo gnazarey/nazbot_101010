@@ -64,4 +64,9 @@ public class Constants {
         public static final String LOGFILE = "RGBLights.csv";
         public static final Boolean LOGGING = true;
     }
+    // This is the tolerance component
+    public static final class Tolerances {
+        public static final double CONTROLLER_X = 0.5;
+        public static final double CONTROLLER_Y = 0.5;
+    }
 }
