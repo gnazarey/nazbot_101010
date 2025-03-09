@@ -39,6 +39,7 @@ public class DriveTrain {
     private double heading;
     private double headingCorrection = 0.0;
     private double headingSetPoint = Constants.DriveBase.Headings.NORTH;
+    private double currentHeading = Constants.DriveBase.Headings.NORTH;
 
     public DriveTrain(HardwareMap hwMap){
         // Assign the motors
@@ -129,6 +130,12 @@ public class DriveTrain {
 
     public void setHeadingSetPoint(double newHeading){
         this.headingSetPoint = newHeading;
+        this.currentHeading = newHeading;
+    }
+
+    public void setDirection(double newDirection){
+        // Check current heading compared to new heading
+        this.setHeadingSetPoint(newDirection);
     }
 
     public void setMaxXSpeed(double maxX){
