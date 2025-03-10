@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Utils.Constants;
 import org.firstinspires.ftc.teamcode.Utils.Logger;
 
 import java.util.Locale;
+import java.util.Timer;
 
 
 @TeleOp(name="Basic_Op")
@@ -20,10 +23,13 @@ public class Basic_Operation extends OpMode {
     private GamepadEx controller1 = null;
     private DriveTrain driveTrain;
     private Logger logger;
-    private double xController;
-    private double yController;
+    private double xLeftController;
+    private double yLeftController;
+    private double xRightController;
+    private double yRightController;
 
     public void init(){
+
         this.lights = new RGBLights(hardwareMap);
         this.odometer =new Odometer(hardwareMap);
         this.controller1 = new GamepadEx(gamepad1);
@@ -37,12 +43,15 @@ public class Basic_Operation extends OpMode {
 
     @Override public void loop(){
 
-
+        this.xRightController = this.controller1.getRightX();
+        this.yRightController = this.controller1.getRightY();
         //Select N, S, E, W
         if (this.controller1.getRightX() <= -Constants.Tolerances.CONTROLLER_X) {
-            this.driveTrain.setDirection(Constants.DriveBase.Headings.WEST); // west
+            this.driveTrain.setDirection(Constants.DriveBase.Headings.WEST);// west
+            this.lights.setlRGB(Constants.RGB_Light.YELLOW);
         } else if (this.controller1.getRightX() >= Constants.Tolerances.CONTROLLER_X) {
             this.driveTrain.setDirection(Constants.DriveBase.Headings.EAST); // east
+            this.lights.setrRGB(Constants.RGB_Light.YELLOW);
         } else if (this.controller1.getRightY() >= Constants.Tolerances.CONTROLLER_Y) {
             this.driveTrain.setDirection(Constants.DriveBase.Headings.SOUTH); // south
         } else if (this.controller1.getRightY() <= -Constants.Tolerances.CONTROLLER_Y) {
@@ -59,19 +68,22 @@ public class Basic_Operation extends OpMode {
             this.driveTrain.setDirection(Constants.DriveBase.Headings.SOUTHEAST); // south east
         }
         // Look for joystick input
-        this.xController = this.controller1.getLeftX();
-        this.yController = this.controller1.getLeftY();
+        this.xLeftController = this.controller1.getLeftX();
+        this.yLeftController = this.controller1.getLeftY();
         // Drive Control First
-        this.driveTrain.move(this.xController,this.yController);
+        this.driveTrain.move(this.xLeftController,this.yLeftController);
+
         // Run the Loops
         this.writeLog();
         this.odometer.update();
         this.driveTrain.loop();
+        this.lights.setAllRGB(Constants.RGB_Light.WHITE);
     }
 
     private void writeLog(){
         // JoyStick Input
-        this.logger.writeLog(String.format(Locale.ENGLISH,"%s Joystick Input X: %f Y: %f",this.logger.getTimeStamp(),this.xController,this.yController));
+        this.logger.writeLog(String.format(Locale.ENGLISH,"%s Left Controller X: %f Y: %f",this.logger.getTimeStamp(),this.xLeftController,this.yLeftController));
+        this.logger.writeLog(String.format(Locale.ENGLISH,"%s Right Controller X: %f Y: %f",this.logger.getTimeStamp(),this.xRightController,this.yRightController));
     }
     public void stop(){
         this.logger.stopLog();
