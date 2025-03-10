@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.SubSystem;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
 
 /////////////////////////////////////////////////
@@ -40,6 +42,7 @@ public class DriveTrain {
     private double headingCorrection = 0.0;
     private double headingSetPoint = Constants.DriveBase.Headings.NORTH;
     private double currentHeading = Constants.DriveBase.Headings.NORTH;
+    private Telemetry telemetry;
 
     public DriveTrain(HardwareMap hwMap){
         // Assign the motors
@@ -71,9 +74,12 @@ public class DriveTrain {
         this.rightFrontDrive.setInverted(true);
         this.rightRearDrive.setInverted(true);
         // Odometer Update
+        this.odometer.reset();
         this.odometer.update();
         // Heading Setting
         this.heading = 0.0;
+        // Telemetry
+        this.telemetry = FtcDashboard.getInstance().getTelemetry();
     }
 
     public void loop(){
@@ -81,16 +87,20 @@ public class DriveTrain {
         this.heading = this.odometer.getHeading();
         this.headingControl.setSetPoint(this.headingSetPoint);
         if (!this.headingControl.atSetPoint()) {
-            this.headingCorrection = this.headingControl.calculate(this.heading);
+            this.headingCorrection = -this.headingControl.calculate(this.heading);
         } else {
             this.headingCorrection = 0.0;
         }
+        this.telemetry.addData("Heading",this.heading);
+        this.telemetry.addData("Heading Correction",this.headingCorrection);
+        this.telemetry.update();
         // Send the movement controls to the controller
         // xSpeed is the strafing speed -1.0 to +1.0;
         // ySpeed is the forward speed -1.0 to +1.0;
         // headingCorrection speed to turn at -1.0 to +1.0;
         // heading the direction it is facing 0 - 360;
         this.driveBase.driveFieldCentric(this.xSpeed,this.ySpeed,this.headingCorrection,this.heading,false);
+        this.odometer.update();
     }
 
     public double getHeadingCorrection(){
