@@ -29,6 +29,8 @@ public class Constants {
         public static final double HEADING_Ki = 0.001;
         public static final double HEADING_Kd = 0.000;
         public static final double HEADING_TOLERANCE = 2.5;
+        public static final String LOGFILE = "drivebase.log";
+        public static final Boolean LOGGING = true;
 
         public static final class Headings {
             public static final double NORTH = 0.0;
@@ -45,6 +47,8 @@ public class Constants {
     public static final class Odometer{
         public static double ODOMETER_X_OFFSET = 0;// uppdated after contact with gobilda support
         public static double ODOMETER_Y_OFFSET = 27.0;
+        public static final String LOGFILE = "odometer.log";
+        public static final Boolean LOGGING = true;
     }
     // This is the rgb_light component of the class
     public static final class RGB_Light {
