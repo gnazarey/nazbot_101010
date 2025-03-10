@@ -21,15 +21,21 @@ import java.util.Locale;
 // Email: george@nazarey.ca
 //
 public class Odometer {
-    private final GoBildaPinpointDriver odometer;
+    private GoBildaPinpointDriver odometer;
     private Pose2D pos;
     private Pose2D velocity;
-    private final Logger logger;
+    private Logger logger;
 
     public Odometer(HardwareMap hwMap) {
         this.odometer = hwMap.get(GoBildaPinpointDriver.class, "odometer");
-        this.logger = new Logger("odometer.log");
+        if (Constants.Odometer.LOGGING) {
+            this.logger = new Logger(Constants.Odometer.LOGFILE);
+        }
         this.init();
+    }
+
+    public Odometer(Logger logger) {
+        this.logger = logger;
     }
 
     private void init(){
@@ -60,9 +66,11 @@ public class Odometer {
         this.pos = this.odometer.getPosition();
         this.velocity = this.odometer.getVelocity();
 
-        this.logger.writeLog(String.format(Locale.ENGLISH,"%s Heading: %f",this.logger.getTimeStamp(),this.getHeading()));
-        this.logger.writeLog(String.format(Locale.ENGLISH,"%s Position: X: %f Y: %f",this.logger.getTimeStamp(),this.getX(),this.getY()));
-        this.logger.writeLog(String.format(Locale.ENGLISH,"%s Velocity: X: %f Y: %f",this.logger.getTimeStamp(),this.getXSpeed(),this.getYSpeed()));
+        if (Constants.Odometer.LOGGING) {
+            this.logger.writeLog(String.format(Locale.ENGLISH, "%s Heading: %f", this.logger.getTimeStamp(), this.getHeading()));
+            this.logger.writeLog(String.format(Locale.ENGLISH, "%s Position: X: %f Y: %f", this.logger.getTimeStamp(), this.getX(), this.getY()));
+            this.logger.writeLog(String.format(Locale.ENGLISH, "%s Velocity: X: %f Y: %f", this.logger.getTimeStamp(), this.getXSpeed(), this.getYSpeed()));
+        }
     }
 
 
