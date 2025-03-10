@@ -1,20 +1,17 @@
 package org.firstinspires.ftc.teamcode.Teleop;
-
+// FTC Libs
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.util.Timing;
+// Robot Core Libs
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+// FirstInspires Libs
 import org.firstinspires.ftc.teamcode.SubSystem.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystem.Odometer;
 import org.firstinspires.ftc.teamcode.SubSystem.RGBLights;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
 import org.firstinspires.ftc.teamcode.Utils.Logger;
-
+// Java Libraries
 import java.util.Locale;
-import java.util.Timer;
-
 
 @TeleOp(name="Basic_Op")
 public class Basic_Operation extends OpMode {
