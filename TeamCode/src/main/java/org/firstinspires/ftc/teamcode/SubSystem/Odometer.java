@@ -37,6 +37,7 @@ public class Odometer {
         this.logger = logger;
     }
 
+
     private void init(){
         // Setup Odometer
         this.odometer.setOffsets(Constants.Odometer.ODOMETER_X_OFFSET, Constants.Odometer.ODOMETER_Y_OFFSET);
@@ -49,6 +50,10 @@ public class Odometer {
     }
 
     public double getHeading(){ return this.pos.getHeading(AngleUnit.DEGREES); }
+
+    public double getMPHSpeed() { return this.getTotalSpeed() / 447.04; }
+
+    public double getTotalSpeed(){ return Math.sqrt(Math.pow(getXSpeed(),2.0)+Math.pow(getYSpeed(),2.0)); }
 
     public double getX(){ return this.pos.getX(DistanceUnit.MM); }
 
