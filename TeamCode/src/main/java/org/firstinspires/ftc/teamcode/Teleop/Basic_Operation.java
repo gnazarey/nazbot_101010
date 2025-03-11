@@ -25,6 +25,11 @@ public class Basic_Operation extends OpMode {
     private double xRightController;
     private double yRightController;
 
+    public void init_loop(){
+        this.odometer.reset();
+        this.odometer.update();
+    }
+
     public void init(){
 
         this.lights = new RGBLights(hardwareMap);
