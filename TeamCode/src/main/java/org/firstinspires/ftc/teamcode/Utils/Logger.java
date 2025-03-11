@@ -21,12 +21,16 @@ public class Logger {
     private PrintStream logWriter;
     private Boolean logging = true;
     private final SimpleDateFormat dateFormat;
+    private final Boolean addTimeStamp;
 
-    public Logger(String filename){
-
+    public Logger(String filename, Boolean addTimeStamp){
+        this.addTimeStamp = addTimeStamp;
         this.fileName = String.format("%s/FIRST/data/%s",Environment.getExternalStorageDirectory().getPath(), filename);
         this.dateFormat = new SimpleDateFormat("yyyy-MM-dd@HH-mm-ss", Locale.US);
         this.init();
+    }
+    public Logger(String filename){
+        this(filename,false);
     }
 
     private void init(){
@@ -49,8 +53,12 @@ public class Logger {
     public void writeLog(String logLine)
     {
         if (this.logging) {
-            this.logWriter.println(logLine);
+            if (addTimeStamp) {
+                this.logWriter.printf(Locale.ENGLISH, "%s %s%n", this.getTimeStamp(), logLine);
+            } else {
+                this.logWriter.println(logLine);
             }
+        }
     }
 
     public void stopLog() {
