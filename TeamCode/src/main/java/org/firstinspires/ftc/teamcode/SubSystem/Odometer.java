@@ -24,17 +24,21 @@ public class Odometer {
     private Pose2D pos;
     private Pose2D velocity;
     private Logger logger;
+    private Boolean logging = false;
 
-    public Odometer(HardwareMap hwMap) {
+    public Odometer(HardwareMap hwMap, Logger logger) {
         this.odometer = hwMap.get(GoBildaPinpointDriver.class, "odometer");
-        if (Constants.Odometer.LOGGING) {
-            this.logger = new Logger(Constants.Odometer.LOGFILE);
-        }
+        this.logger = logger;
+        this.logging = true;
         this.init();
     }
-
-    public Odometer(Logger logger) {
-        this.logger = logger;
+    public Odometer(HardwareMap hwMap) {
+        if (Constants.Odometer.LOGGING) {
+            this.logger = new Logger(Constants.Odometer.LOGFILE);
+            this.logging = true;
+        }
+        this.odometer = hwMap.get(GoBildaPinpointDriver.class, "odometer");
+        this.init();
     }
 
 
@@ -70,7 +74,7 @@ public class Odometer {
         this.pos = this.odometer.getPosition();
         this.velocity = this.odometer.getVelocity();
 
-        if (Constants.Odometer.LOGGING) {
+        if (this.logging) {
             this.logger.writeLog(String.format(Locale.ENGLISH, "%s Heading: %f", this.logger.getTimeStamp(), this.getHeading()));
             this.logger.writeLog(String.format(Locale.ENGLISH, "%s Position: X: %f Y: %f", this.logger.getTimeStamp(), this.getX(), this.getY()));
             this.logger.writeLog(String.format(Locale.ENGLISH, "%s Velocity: X: %f Y: %f", this.logger.getTimeStamp(), this.getXSpeed(), this.getYSpeed()));
