@@ -26,7 +26,7 @@ public class Logger {
     public Logger(String filename, Boolean addTimeStamp){
         this.addTimeStamp = addTimeStamp;
         this.fileName = String.format("%s/FIRST/data/%s",Environment.getExternalStorageDirectory().getPath(), filename);
-        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd@HH-mm-ss", Locale.US);
+        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd@HH-mm-ss.SSSS", Locale.US);
         this.init();
     }
     public Logger(String filename){
