@@ -26,7 +26,8 @@ public class Logger {
     public Logger(String filename, Boolean addTimeStamp){
         this.addTimeStamp = addTimeStamp;
         this.fileName = String.format("%s/FIRST/data/%s",Environment.getExternalStorageDirectory().getPath(), filename);
-        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd@HH-mm-ss.SSSS", Locale.US);
+    //    this.dateFormat = new SimpleDateFormat("yyyy-MM-dd@HH-mm-ss.SSSS", Locale.US);
+        this.dateFormat = new SimpleDateFormat("mm-ss.SSSS", Locale.US);
         this.init();
     }
     public Logger(String filename){
@@ -54,7 +55,7 @@ public class Logger {
     {
         if (this.logging) {
             if (addTimeStamp) {
-                this.logWriter.printf(Locale.ENGLISH, "%s %s%n", this.getTimeStamp(), logLine);
+                this.logWriter.printf(Locale.ENGLISH, "%s\t%s%n", this.getTimeStamp(), logLine);
             } else {
                 this.logWriter.println(logLine);
             }
