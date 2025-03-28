@@ -75,9 +75,9 @@ public class Odometer {
         this.velocity = this.odometer.getVelocity();
 
         if (this.logging) {
-            this.logger.writeLog(String.format(Locale.ENGLISH, "%s Heading: %f", this.logger.getTimeStamp(), this.getHeading()));
-            this.logger.writeLog(String.format(Locale.ENGLISH, "%s Position: X: %f Y: %f", this.logger.getTimeStamp(), this.getX(), this.getY()));
-            this.logger.writeLog(String.format(Locale.ENGLISH, "%s Velocity: X: %f Y: %f", this.logger.getTimeStamp(), this.getXSpeed(), this.getYSpeed()));
+            this.logger.writeLog(String.format(Locale.ENGLISH, "Heading: %f",this.getHeading()));
+            this.logger.writeLog(String.format(Locale.ENGLISH, "Position: X: %f Y: %f",this.getX(),this.getY()));
+            this.logger.writeLog(String.format(Locale.ENGLISH, "Velocity: X: %f Y: %f",this.getXSpeed(),this.getYSpeed()));
         }
     }
 

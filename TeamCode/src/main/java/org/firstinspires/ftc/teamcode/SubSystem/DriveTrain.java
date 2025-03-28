@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
+import org.firstinspires.ftc.teamcode.Utils.Logger;
+
+import java.util.Locale;
 
 /////////////////////////////////////////////////
 // This is the DriveTrain subsystem. It contains
@@ -21,15 +24,20 @@ import org.firstinspires.ftc.teamcode.Utils.Constants;
 //
 @Config
 public class DriveTrain {
+    // Hardware Mapping
+    private final HardwareMap hwMap;
     // Motor definition
-    private final Motor leftFrontDrive;
-    private final Motor leftRearDrive;
-    private final Motor rightFrontDrive;
-    private final Motor rightRearDrive;
+    private Motor leftFrontDrive;
+    private Motor leftRearDrive;
+    private Motor rightFrontDrive;
+    private Motor rightRearDrive;
     // Drive Base
     MecanumDrive driveBase;
     // PID Controllers
-    private PIDController headingControl = null;
+    private final PIDController headingControl;
+    public static double headingKp = Constants.DriveBase.HEADING_Kp;
+    public static double headingKi = Constants.DriveBase.HEADING_Ki;
+    public static double headingKd = Constants.DriveBase.HEADING_Kd;
     // Odometer
     private final Odometer odometer;
     // Speed Setting
@@ -41,28 +49,87 @@ public class DriveTrain {
     private double heading;
     private double headingCorrection = 0.0;
     private double headingSetPoint = Constants.DriveBase.Headings.NORTH;
-    private double currentHeading = Constants.DriveBase.Headings.NORTH;
+    public static double headingTolerance = Constants.DriveBase.HEADING_TOLERANCE;
     private Telemetry telemetry;
+    // Looping
+    private Logger logger;
+    private Boolean logging = false;
 
     public DriveTrain(HardwareMap hwMap){
-        // Assign the motors
-        this.leftFrontDrive = new Motor(hwMap,"LF");
-        this.leftRearDrive = new Motor(hwMap,"LR");
-        this.rightFrontDrive = new Motor(hwMap,"RF");
-        this.rightRearDrive = new Motor(hwMap,"RR");
+        this.hwMap = hwMap;
+        this.assignMotors();
         // Assign the drive base
         this.driveBase = new MecanumDrive(this.leftFrontDrive,this.rightFrontDrive,this.leftRearDrive,this.rightRearDrive);
         // PIDController
-        this.headingControl = new PIDController(Constants.DriveBase.HEADING_Kp,Constants.DriveBase.HEADING_Ki,Constants.DriveBase.HEADING_Kd);
+        this.headingControl = new PIDController(DriveTrain.headingKp,DriveTrain.headingKi,DriveTrain.headingKd);
         // Odometer
         this.odometer = new Odometer(hwMap);
         // Call init
         this.init();
     }
 
+    public DriveTrain(HardwareMap hwMap, Logger logger){
+        this.hwMap = hwMap;
+        this.logger = logger;
+        this.logging = true;
+        // Assign motors
+        this.assignMotors();
+        // Assign the drive base
+        this.driveBase = new MecanumDrive(this.leftFrontDrive,this.rightFrontDrive,this.leftRearDrive,this.rightRearDrive);
+        // PIDController
+        this.headingControl = new PIDController(DriveTrain.headingKp,DriveTrain.headingKi,DriveTrain.headingKd);
+        this.logger.writeLog(String.format(Locale.ENGLISH,"Heading Kp = %f,Heading Ki = %f,Heading Kd = %f",DriveTrain.headingKp,DriveTrain.headingKi,DriveTrain.headingKd));
+        // Odometer
+        this.odometer = new Odometer(hwMap);
+        // Call init
+        this.init();
+    }
+
+    public DriveTrain(HardwareMap hwMap, Logger logger, Odometer odo){
+        // Hardware mapping
+        this.hwMap = hwMap;
+        // Logging
+        this.logger = logger;
+        this.logging = true;
+        // Odometer
+        this.odometer = odo;
+        // Assign motors
+        this.assignMotors();
+        // Assign the drive base
+        this.driveBase = new MecanumDrive(this.leftFrontDrive,this.rightFrontDrive,this.leftRearDrive,this.rightRearDrive);
+        // PIDController
+        this.headingControl = new PIDController(DriveTrain.headingKp,DriveTrain.headingKi,DriveTrain.headingKd);
+        this.logger.writeLog(String.format(Locale.ENGLISH,"Heading Kp = %f,Heading Ki = %f,Heading Kd = %f",DriveTrain.headingKp,DriveTrain.headingKi,DriveTrain.headingKd));
+        // Call init
+        this.init();
+    }
+
+    public DriveTrain(HardwareMap hwMap, Logger logger, Odometer odo, Telemetry tel){
+        // Telemetry
+        this.telemetry = tel;
+        // Hardware mapping
+        this.hwMap = hwMap;
+        // Logging
+        this.logger = logger;
+        this.logging = true;
+        // Odometer
+        this.odometer = odo;
+        // Assign motors
+        this.assignMotors();
+        // Assign the drive base
+        this.driveBase = new MecanumDrive(this.leftFrontDrive,this.rightFrontDrive,this.leftRearDrive,this.rightRearDrive);
+        // PIDController
+        this.headingControl = new PIDController(DriveTrain.headingKp,DriveTrain.headingKi,DriveTrain.headingKd);
+        this.logger.writeLog(String.format(Locale.ENGLISH,"Heading Kp = %f,Heading Ki = %f,Heading Kd = %f",DriveTrain.headingKp,DriveTrain.headingKi,DriveTrain.headingKd));
+        // Call init
+        this.init();
+    }
+
     public void init(){
+        // Log Max Settings
+        this.logger.writeLog(String.format(Locale.ENGLISH,"Max Speed Setting X: %f Y: %f",this.getMaxXSpeed(),this.getMaxYSpeed()));
         // Setup Tolerance
-        this.headingControl.setTolerance(Constants.DriveBase.HEADING_TOLERANCE);
+        this.headingControl.setTolerance(DriveTrain.headingTolerance);
         // Initialize Motors
         this.leftFrontDrive.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         this.leftRearDrive.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
@@ -79,18 +146,19 @@ public class DriveTrain {
         // Heading Setting
         this.heading = 0.0;
         // Telemetry
-        this.telemetry = FtcDashboard.getInstance().getTelemetry();
+       // this.telemetry = FtcDashboard.getInstance().getTelemetry();
     }
 
     public void loop(){
         // Heading calculations
-        this.heading = this.odometer.getHeading();
         this.headingControl.setSetPoint(this.headingSetPoint);
+        this.heading = this.odometer.getHeading();
         if (!this.headingControl.atSetPoint()) {
             this.headingCorrection = -this.headingControl.calculate(this.heading);
         } else {
             this.headingCorrection = 0.0;
         }
+     //   this.headingCorrection = this.turnCorrection * this.headingCorrection;
         this.telemetry.addData("Heading",this.heading);
         this.telemetry.addData("Heading Correction",this.headingCorrection);
         this.telemetry.update();
@@ -100,7 +168,9 @@ public class DriveTrain {
         // headingCorrection speed to turn at -1.0 to +1.0;
         // heading the direction it is facing 0 - 360;
         this.driveBase.driveFieldCentric(this.xSpeed,this.ySpeed,this.headingCorrection,this.heading,false);
-        this.odometer.update();
+        if (this.logging){
+            this.logger.writeLog(String.format(Locale.ENGLISH,"xPos - yPos - xSpeed - ySpeed - Heading Correction - Heading - HeadingSetPoint),%f,%f,%f,%f,%f,%f,%f",this.odometer.getX(),this.odometer.getY(),xSpeed,this.ySpeed,this.getHeadingCorrection(),this.heading,this.getHeadingSetPoint()));
+        }
     }
 
     public double getHeadingCorrection(){
@@ -140,7 +210,6 @@ public class DriveTrain {
 
     public void setHeadingSetPoint(double newHeading){
         this.headingSetPoint = newHeading;
-        this.currentHeading = newHeading;
     }
 
     public void setDirection(double newDirection){
@@ -160,5 +229,13 @@ public class DriveTrain {
         this.xSpeed = 0.0;
         this.ySpeed = 0.0;
         this.driveBase.stop();
+    }
+
+    private void assignMotors(){
+        // Assign the motors
+        this.leftFrontDrive = new Motor(this.hwMap,"LF");
+        this.leftRearDrive = new Motor(this.hwMap,"LR");
+        this.rightFrontDrive = new Motor(this.hwMap,"RF");
+        this.rightRearDrive = new Motor(this.hwMap,"RR");
     }
 }
