@@ -26,9 +26,9 @@ public class Constants {
         public static final double XPID_Kp = 0.018;
         public static final double YPID_Kp = 0.018;
         public static final double HEADING_Kp = 0.010;
-        public static final double HEADING_Ki = 0.001;
+        public static final double HEADING_Ki = 0.000;
         public static final double HEADING_Kd = 0.000;
-        public static final double HEADING_TOLERANCE = 2.5;
+        public static final double HEADING_TOLERANCE = 2.0;
         public static final String LOGFILE = "drivebase.log";
         public static final Boolean LOGGING = true;
 
