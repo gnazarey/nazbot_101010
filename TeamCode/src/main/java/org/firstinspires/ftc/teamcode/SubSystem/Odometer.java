@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
 import org.firstinspires.ftc.teamcode.Utils.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.Utils.Logger;
@@ -28,21 +29,17 @@ public class Odometer {
 
     public Odometer(HardwareMap hwMap, Logger logger) {
         this.odometer = hwMap.get(GoBildaPinpointDriver.class, "odometer");
-        this.logger = logger;
-        this.logging = true;
-        this.init();
-    }
-    public Odometer(HardwareMap hwMap) {
-        if (Constants.Odometer.LOGGING) {
-            this.logger = new Logger(Constants.Odometer.LOGFILE);
+        if (logger == null){
+            if (Constants.Odometer.LOGGING) {
+                this.logger = new Logger(Constants.Odometer.LOGFILE);
+                this.logging = true;
+            } else {
+                this.logging = false;
+            }
+        } else {
+            this.logger = logger;
             this.logging = true;
         }
-        this.odometer = hwMap.get(GoBildaPinpointDriver.class, "odometer");
-        this.init();
-    }
-
-
-    private void init(){
         // Setup Odometer
         this.odometer.setOffsets(Constants.Odometer.ODOMETER_X_OFFSET, Constants.Odometer.ODOMETER_Y_OFFSET);
         this.odometer.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
@@ -52,8 +49,13 @@ public class Odometer {
         // Update odometer
         this.update();
     }
+    public Odometer(HardwareMap hwMap) {
+        this(hwMap,null);
+    }
 
     public double getHeading(){ return this.pos.getHeading(AngleUnit.DEGREES); }
+
+    public double getRawHeading() { return this.odometer.getHeading(UnnormalizedAngleUnit.DEGREES); }
 
     public double getMPHSpeed() { return this.getTotalSpeed() / 447.04; }
 
@@ -75,7 +77,7 @@ public class Odometer {
         this.velocity = this.odometer.getVelocity();
 
         if (this.logging) {
-            this.logger.writeLog(String.format(Locale.ENGLISH, "Heading: %f",this.getHeading()));
+            this.logger.writeLog(String.format(Locale.ENGLISH, "Heading: %f Raw: %f",this.getHeading(),this.getRawHeading()));
             this.logger.writeLog(String.format(Locale.ENGLISH, "Position: X: %f Y: %f",this.getX(),this.getY()));
             this.logger.writeLog(String.format(Locale.ENGLISH, "Velocity: X: %f Y: %f",this.getXSpeed(),this.getYSpeed()));
         }
