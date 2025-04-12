@@ -55,7 +55,7 @@ public class Odometer {
 
     public double getHeading(){ return this.pos.getHeading(AngleUnit.DEGREES); }
 
-    public double getRawHeading() { return this.odometer.getHeading(UnnormalizedAngleUnit.DEGREES); }
+    //public double getRawHeading() { return this.odometer.getHeading(UnnormalizedAngleUnit.DEGREES); }
 
     public double getMPHSpeed() { return this.getTotalSpeed() / 447.04; }
 
@@ -77,7 +77,8 @@ public class Odometer {
         this.velocity = this.odometer.getVelocity();
 
         if (this.logging) {
-            this.logger.writeLog(String.format(Locale.ENGLISH, "Heading: %f Raw: %f",this.getHeading(),this.getRawHeading()));
+          //  this.logger.writeLog(String.format(Locale.ENGLISH, "Heading: %f Raw: %f",this.getHeading(),this.getRawHeading()));
+            this.logger.writeLog(String.format(Locale.ENGLISH, "Heading: %f",this.getHeading()));
             this.logger.writeLog(String.format(Locale.ENGLISH, "Position: X: %f Y: %f",this.getX(),this.getY()));
             this.logger.writeLog(String.format(Locale.ENGLISH, "Velocity: X: %f Y: %f",this.getXSpeed(),this.getYSpeed()));
         }
