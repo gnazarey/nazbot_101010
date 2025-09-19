@@ -8,7 +8,7 @@ buildscript {
    repositories {
         mavenCentral()
         google()
-        jcenter()
+//        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.6.0'
@@ -24,7 +24,7 @@ android {
         targetSdkVersion 28
         buildConfigField "String", "APP_BUILD_TIME", '"' + (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ROOT).format(new Date())) + '"'
         // per ftclib docs
-        multiDexEnabled true
+        multiDexEnabled = true
     }
 
     buildFeatures {
@@ -35,7 +35,7 @@ android {
         implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 
     }
-    compileSdkVersion 34
+    compileSdkVersion = 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
