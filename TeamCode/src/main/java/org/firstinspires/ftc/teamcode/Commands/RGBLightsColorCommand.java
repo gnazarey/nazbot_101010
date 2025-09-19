@@ -5,26 +5,26 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.SubSystem.RGBLights;
 import org.firstinspires.ftc.teamcode.SubSystem.RGBLightsSubSystem;
 
-public class RGBLightsCommand extends CommandBase {
+public class RGBLightsColorCommand extends CommandBase {
     private final RGBLightsSubSystem RGBLights;
-    private final boolean finished = true;
-    private double lRGBColor;
-    private double rRGBColor;
+    private boolean finished;
+    private double RGBColor;
 
-    public RGBLightsCommand(RGBLightsSubSystem RGBLightsSubSystem){
+
+    public RGBLightsColorCommand(RGBLightsSubSystem RGBLightsSubSystem, double color){
         this.RGBLights = RGBLightsSubSystem;
-
+        this.RGBColor = color;
         addRequirements(RGBLightsSubSystem);
     }
 
     @Override
     public void initialize(){
-
+        this.finished = false;
     }
 
     @Override
     public void execute(){
-
+        this.RGBLights.setColor(RGBColor);
     }
 
     @Override
