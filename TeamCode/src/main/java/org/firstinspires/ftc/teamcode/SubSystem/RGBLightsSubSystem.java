@@ -7,28 +7,46 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Utils.Constants;
 
 public class RGBLightsSubSystem extends SubsystemBase {
-    private final SimpleServo RGB;
-    private double RGBColor = Constants.RGB_Light.OFF;
+    private final SimpleServo RGBleft;
+    private final SimpleServo RGBright;
+    private double rgbLeftColor = Constants.RGB_Light.OFF;
+    private double rgbRightColor = Constants.RGB_Light.OFF;
 
     public RGBLightsSubSystem(HardwareMap hwMap) {
-        this.RGB = new SimpleServo(hwMap,"lrgb",0.0,1.0);
+        this.RGBleft = new SimpleServo(hwMap,"lrgb",0.0,1.0);
+        this.RGBright = new SimpleServo(hwMap,"rrgb",0.0,1.0);
     }
+    // Get Section
+    public double getColor(double color,boolean left, boolean right) {
+        if (left){
+            return this.rgbLeftColor;
+        }
+        if (right){
+            return this.rgbRightColor;
+        }
+        return Constants.RGB_Light.ERROR;
+    }
+    // Set Section
     // This sets the color to the given color
-    public void setColor(double color) {
-        this.RGB.setPosition(color);
-        this.RGBColor = color;
+    public void setColor(double color,boolean left, boolean right) {
+        if (left){
+            this.RGBleft.setPosition(color);
+            this.rgbLeftColor = color;
+        }
+        if (right){
+            this.RGBright.setPosition(color);
+            this.rgbRightColor = color;
+        }
     }
+    // Method Section
     // This turns the light on
     public void turnOn(){
-        this.RGB.setPosition(Constants.RGB_Light.ON);
-        this.RGBColor = Constants.RGB_Light.ON;
+        this.setColor(Constants.RGB_Light.ON,true,true);
     }
     // This turns the light off
     public void turnOff(){
-        this.RGB.setPosition(Constants.RGB_Light.OFF);
-        this.RGBColor = Constants.RGB_Light.OFF;
+        this.setColor(Constants.RGB_Light.OFF,true,true);
     }
-
     // This turns the light off
     public void stop(){
         this.turnOff();

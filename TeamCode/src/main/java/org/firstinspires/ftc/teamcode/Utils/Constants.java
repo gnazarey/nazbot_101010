@@ -65,6 +65,7 @@ public class Constants {
         public static final double VIOLET = 0.722;
         public static final double WHITE = 1.000;
         public static final double ON = 1.000;
+        public static final double ERROR = -1.000;
 
         public static final String LOGFILE = "RGBLights.csv";
         public static final Boolean LOGGING = true;

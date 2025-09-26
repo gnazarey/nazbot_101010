@@ -24,7 +24,7 @@ public class RGBLightsColorCommand extends CommandBase {
 
     @Override
     public void execute(){
-        this.RGBLights.setColor(RGBColor);
+        this.RGBLights.setColor(RGBColor,true,true);
     }
 
     @Override
